@@ -10,8 +10,8 @@ https://user-images.githubusercontent.com/84735778/179564191-bf72fc6c-b3a6-4ca1-
 ## Contribution:
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contribution you make would be appreciated.
 
--Fork the Project
--Create your Feature Branch (git checkout -b feature/AmazingFeature)
--Commit your Changes (git commit -m 'Add some AmazingFeature')
--Push to the Branch (git push origin feature/AmazingFeature)
--Open a Pull Request.
+Fork the Project <br>
+Create your Feature Branch (git checkout -b feature/AmazingFeature)<br>
+Commit your Changes (git commit -m 'Add some AmazingFeature')<br>
+Push to the Branch (git push origin feature/AmazingFeature)<br>
+Open a Pull Request.
