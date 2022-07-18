@@ -7,3 +7,4 @@ Make a snake game for review  studied  C++ knowledge
 
 https://user-images.githubusercontent.com/84735778/179564191-bf72fc6c-b3a6-4ca1-aa2d-35f2581fdd91.mp4
 
+## If you interested this game,You can pull and add new feature.
