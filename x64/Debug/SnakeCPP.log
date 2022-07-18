@@ -1,0 +1,5 @@
+﻿  snake.cpp
+C:\Users\lenovo\source\repos\SnakeCPP\SnakeCPP\snake.cpp(96,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\lenovo\source\repos\SnakeCPP\SnakeCPP\snake.cpp(205,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\lenovo\source\repos\SnakeCPP\SnakeCPP\snake.cpp(223): warning C4715: 'collision': not all control paths return a value
+  SnakeCPP.vcxproj -> C:\Users\lenovo\source\repos\SnakeCPP\x64\Debug\SnakeCPP.exe

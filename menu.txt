@@ -1,0 +1,9 @@
+
+
+				Press z to start
+
+				 'h'	HELP 
+				 'q'    QUITs
+
+
+				 Made by:Nam Phan
