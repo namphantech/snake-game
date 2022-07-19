@@ -3,7 +3,7 @@
 #include"config.h"
 #include<conio.h>
 #include<fstream>
-#include<time.h>
+
 
 
 using namespace std;
@@ -23,11 +23,12 @@ struct Snake {
 };
 Snake snake_obj;
 food food_obj;
+int time_sleep = 300;
 void showStartGame();
 void play();
 void help();
 void initGame(Snake& snake_obj, food& food_obj);
-int collision(Snake& snake_obj, food& food_obj);
+int collision(Snake& snake_obj, food& food_obj,int &time_sleep);
 void display(Snake snake_obj, food food_obj);
 void move(Snake& snake_obj);
 int main()
@@ -53,6 +54,7 @@ int main()
 		
 		break;
 	case 'q':
+		system("cls");
 		break;
 	default:
 		system("cls");
@@ -88,24 +90,24 @@ void help()
 	}
 	iFile.close();
 
-	_getch(); // wait for key to press
+	_getch();
 
 }
 void play()
 {
 	srand(time(NULL));
 	initGame(snake_obj, food_obj);
-	int check;
-	int time_sleep = 200;
+	//int check;
+	
 	
 	while (1)
 	{
 		
-		display(snake_obj, food_obj);
-
 		move(snake_obj);
+		system("cls");
+		display(snake_obj, food_obj);
 		
-		check = collision(snake_obj, food_obj);
+	    collision(snake_obj, food_obj,time_sleep);
 	// chưa check va chạm nha
 		
 		Sleep(time_sleep);
@@ -122,7 +124,7 @@ void initGame(Snake& snake_obj, food& food_obj)
 
 	food_obj.coord_food.x = 5;
 	food_obj.coord_food.y = 5;
-	snake_obj.status_dir = LEFT;
+	snake_obj.status_dir = RIGHT;
 	
 	
 
@@ -130,7 +132,7 @@ void initGame(Snake& snake_obj, food& food_obj)
 
 void display(Snake snake_obj, food food_obj)
 {
-	system("cls");
+	//system("cls");
 	//SetColor(10);
 	uint16_t i;
 	for (i = 1; i < 50; ++i)
@@ -151,7 +153,7 @@ void display(Snake snake_obj, food food_obj)
 	
 	SetColor(4);
 	gotoXY(food_obj.coord_food.x, food_obj.coord_food.y);
-	putchar('A');
+	putchar('o');
 
 	SetColor(10);
 	gotoXY(snake_obj.body[0].x, snake_obj.body[0].y);
@@ -159,7 +161,7 @@ void display(Snake snake_obj, food food_obj)
 	for (i = 0; i < snake_obj.length; ++i)
 	{
 		gotoXY(snake_obj.body[i].x, snake_obj.body[i].y);
-		putchar('*');
+		putchar(254);
 
 	}
 
@@ -195,7 +197,7 @@ void move(Snake& snake_obj)
 		snake_obj.body[0].x++;
 
 }
-int collision(Snake& snake_obj, food& food_obj)
+int collision(Snake& snake_obj, food& food_obj,int &time_sleep)
 {
 	ShowCur(false);
 	if (snake_obj.body[0].x < 0 || snake_obj.body[0].y >= 50 ||
@@ -216,7 +218,8 @@ int collision(Snake& snake_obj, food& food_obj)
 
 		food_obj.coord_food.x = rand() % 50;
 		food_obj.coord_food.y = rand() % 30;
-		
+		if (time_sleep > 50)
+			time_sleep -= 20;
 		
 	}
 
