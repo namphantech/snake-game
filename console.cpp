@@ -8,7 +8,7 @@ void gotoXY(int x, int y)
 	hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hConsoleOutput, Cursor_an_Pos);
 }
-//============= đặt màu cho chữ =========
+
 void SetColor(WORD color)
 {
 	HANDLE hConsoleOutput;
@@ -24,7 +24,7 @@ void SetColor(WORD color)
 
 	SetConsoleTextAttribute(hConsoleOutput, wAttributes);
 }
-//============== làm ẩn trỏ chuột ===========
+
 void ShowCur(bool CursorVisibility)
 {
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);

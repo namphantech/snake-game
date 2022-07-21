@@ -4,10 +4,8 @@
 #include<conio.h>
 #include<fstream>
 
-
-
 using namespace std;
-typedef enum Direction{UP, DOWN, LEFT, RIGHT}direction;
+typedef enum Direction{LEFT, RIGHT, UP, DOWN}direction;
 
 typedef struct coordinate {
 	uint32_t x;
@@ -17,20 +15,25 @@ struct food {
 	coord coord_food;
 };
 struct Snake {
-	coord body[20];
-	uint32_t length;
+	coord body[40];
+	int32_t length;
 	direction status_dir;
+	coord tail;
 };
 Snake snake_obj;
 food food_obj;
-int time_sleep = 300;
+int32_t score = 0;
+
 void showStartGame();
 void play();
 void help();
 void initGame(Snake& snake_obj, food& food_obj);
-int collision(Snake& snake_obj, food& food_obj,int &time_sleep);
-void display(Snake snake_obj, food food_obj);
+int  collision(Snake& snake_obj, food& food_obj, int32_t& score);
+void draw_wall(void);
 void move(Snake& snake_obj);
+void snake(Snake &snake_obj,food &food_obj);
+
+
 int main()
 {
 	
@@ -64,6 +67,7 @@ int main()
 	
 	
 }
+
 void showStartGame()
 {
 	char word;
@@ -97,29 +101,38 @@ void play()
 {
 	srand(time(NULL));
 	initGame(snake_obj, food_obj);
+	draw_wall();
 	//int check;
+	int time_sleep = 180;
 	
 	
 	while (1)
-	{
-		
+	{ 
 		move(snake_obj);
-		system("cls");
-		display(snake_obj, food_obj);
-		
-	    collision(snake_obj, food_obj,time_sleep);
-	// chưa check va chạm nha
+
+		snake(snake_obj, food_obj);
+		if (collision(snake_obj, food_obj, score) == 2)
+		{
+			gotoXY(40, 31);
+			cout << "YOUR SCORE:";
+			cout << score;
+
+			break;
+
+		}
+	    
+	
 		
 		Sleep(time_sleep);
 
 	}
-	gotoXY(0, 40);
+	
 	
 }
 void initGame(Snake& snake_obj, food& food_obj)
 {
-	snake_obj.body[0].x = 0;
-	snake_obj.body[0].y = 0;
+	snake_obj.body[0].x = 1;
+	snake_obj.body[0].y = 1;
 	snake_obj.length = 1;
 
 	food_obj.coord_food.x = 5;
@@ -130,11 +143,12 @@ void initGame(Snake& snake_obj, food& food_obj)
 
 }
 
-void display(Snake snake_obj, food food_obj)
+void draw_wall()
 {
 	//system("cls");
-	//SetColor(10);
+	SetColor(10);
 	uint16_t i;
+	
 	for (i = 1; i < 50; ++i)
 	{
 		gotoXY(i, 0); printf("%c", 196);
@@ -150,26 +164,17 @@ void display(Snake snake_obj, food food_obj)
 	gotoXY(50, 0); printf("%c", 191);
 	gotoXY(0, 30); printf("%c", 192);
 	gotoXY(50, 30); printf("%c", 217);
+	gotoXY(0, 31); cout << "Developed by Nam Phan";
 	
-	SetColor(4);
-	gotoXY(food_obj.coord_food.x, food_obj.coord_food.y);
-	putchar('o');
-
-	SetColor(10);
-	gotoXY(snake_obj.body[0].x, snake_obj.body[0].y);
-	putchar(2);
-	for (i = 0; i < snake_obj.length; ++i)
-	{
-		gotoXY(snake_obj.body[i].x, snake_obj.body[i].y);
-		putchar(254);
-
-	}
-
-
+	
 }
+
 void move(Snake& snake_obj)
 {
 	ShowCur(false);
+	snake_obj.tail.x = snake_obj.body[snake_obj.length - 1].x;
+	snake_obj.tail.y = snake_obj.body[snake_obj.length - 1].y;
+	
 	uint16_t i;
 	for (i=snake_obj.length - 1; i > 0; --i) // cái ni quan trọng nha, cái ni giống đầu răn di chuyển thì thân di chuyển thôi
 	{
@@ -177,16 +182,19 @@ void move(Snake& snake_obj)
 	}
 	if (_kbhit())
 	{
-		char key = _getch();
-		if (key == 'A' || key == 'a')
-			snake_obj.status_dir = LEFT;
-		else if (key == 'D' || key == 'd')
-			snake_obj.status_dir= RIGHT;
-		else if (key == 'W' || key == 'w')
-			snake_obj.status_dir = UP;
-		else if (key == 'S' || key == 's')
-			snake_obj.status_dir = DOWN;
+		    char  key = _getch();
+		
+			if (key == 'a')
+				snake_obj.status_dir = LEFT;
+			else if (key == 'd')
+				snake_obj.status_dir = RIGHT;
+			else if (key == 'w')
+				snake_obj.status_dir = UP;
+			else if (key == 's')
+				snake_obj.status_dir = DOWN;
+		
 	}
+
 	if (snake_obj.status_dir == UP)
 		snake_obj.body[0].y--;
 	else if (snake_obj.status_dir == DOWN)
@@ -196,31 +204,51 @@ void move(Snake& snake_obj)
 	else if (snake_obj.status_dir == RIGHT)
 		snake_obj.body[0].x++;
 
+//	return snake_obj.body[snake_obj.length - 1];
 }
-int collision(Snake& snake_obj, food& food_obj,int &time_sleep)
+int collision(Snake& snake_obj, food& food_obj,int32_t &score)
 {
 	ShowCur(false);
-	if (snake_obj.body[0].x < 0 || snake_obj.body[0].y >= 50 ||
-		snake_obj.body[0].y < 0 || snake_obj.body[0].y >= 29)
-		return -1;
+	
+	if (snake_obj.body[0].x < 0 || snake_obj.body[0].x >= 49 ||
+		snake_obj.body[0].y < 0 || snake_obj.body[0].y >= 30)
+		return 2;
 
 	for (int i = 1; i < snake_obj.length; ++i)
 		if (snake_obj.body[0].x == snake_obj.body[i].x &&
 			snake_obj.body[0].y == snake_obj.body[i].y)
-			return -1;
+			return 2;
 
+		
 	if (snake_obj.body[0].x == food_obj.coord_food.x && snake_obj.body[0].y == food_obj.coord_food.y)
 	{
-		for (int i = snake_obj.length; i > 0; --i)
-			snake_obj.body[i] = snake_obj.body[i - 1];
+		++score;
 		snake_obj.length++;
-	
-
-		food_obj.coord_food.x = rand() % 50;
-		food_obj.coord_food.y = rand() % 30;
-		if (time_sleep > 50)
-			time_sleep -= 20;
+		
+		food_obj.coord_food.x = rand() % 49 +1;
+		food_obj.coord_food.y = rand() % 29 +1;
 		
 	}
+	
+	return 0;
+}
+void snake(Snake &snake_obj,food &food_obj)
+{
+	//system("cls");
+	uint16_t i;
+	SetColor(4);
+	gotoXY(food_obj.coord_food.x, food_obj.coord_food.y);
+	putchar('o');
 
+	SetColor(10);
+	
+	for (i = 0; i < snake_obj.length; ++i)
+	{
+		gotoXY(snake_obj.body[i].x, snake_obj.body[i].y);
+		putchar(254);
+		
+	}
+	gotoXY(snake_obj.tail.x, snake_obj.tail.y);
+	cout << " ";
+	
 }
