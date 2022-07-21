@@ -5,6 +5,9 @@ Make a snake game for review  studied  C++ knowledge
 ## Demo game(not official)
 
 
+https://user-images.githubusercontent.com/84735778/180215871-b8d71124-dc41-4e25-b651-e652db7b5f71.mp4
+
+
 ## Contribution:
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contribution you make would be appreciated.
 
