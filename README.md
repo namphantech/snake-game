@@ -5,7 +5,10 @@ Make a snake game for review  studied  C++ knowledge
 ## Demo game(not official)
 
 
-https://user-images.githubusercontent.com/84735778/180215871-b8d71124-dc41-4e25-b651-e652db7b5f71.mp4
+https://user-images.githubusercontent.com/84735778/180216036-e5a3e6f9-18a2-44cc-aecd-4fb3af5b898a.mp4
+
+
+
 
 
 ## Contribution:
